@@ -25,5 +25,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+//taken from example 
+-(IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC {
+    NSLog(@"Backing out of the other view controller.");
+    
+}
+
 
 @end
