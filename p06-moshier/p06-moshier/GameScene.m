@@ -23,6 +23,10 @@
     SKShapeNode *myRectangle4;
     
     SKShapeNode *myTriangle;
+    
+    SKLabelNode* scoreLabel;
+    SKLabelNode* numberLabel;
+    int scoreNumber;
 }
 
 @end;
@@ -66,6 +70,23 @@
     [self rotateRectangle];
     [self addTriangle];
     
+    scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    scoreLabel.fontSize = 70;
+    scoreLabel.fontColor = [SKColor whiteColor];
+    scoreLabel.position = CGPointMake(-self.frame.size.width/2 + 20, 0);
+    scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    scoreLabel.text = @"Score:";
+    [self addChild:scoreLabel];
+    
+    scoreNumber = 0;
+    numberLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    numberLabel.fontSize = 70;
+    numberLabel.fontColor = [SKColor whiteColor];
+    numberLabel.position = CGPointMake(self.frame.size.width/2 - 250, 0);
+    numberLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
+    [self addChild:numberLabel];
+    
 
 }
 
@@ -96,8 +117,8 @@
     [path closePath];
     
     myTriangle = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myTriangle.strokeColor = [SKColor cyanColor];
-    myTriangle.fillColor = [SKColor cyanColor];
+    myTriangle.strokeColor = [SKColor whiteColor];
+    myTriangle.fillColor = [SKColor whiteColor];
     myTriangle.position = CGPointMake(-34, self.frame.size.height/2 -250);
     [self addChild:myTriangle];
     
@@ -225,7 +246,6 @@
         ball.physicsBody.velocity = CGVectorMake(0, 0);
         [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
     }
-    [self changeTriangle];
 }
 
 
