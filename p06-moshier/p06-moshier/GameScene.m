@@ -8,81 +8,45 @@
 
 #import "GameScene.h"
 
-@implementation GameScene {
-    SKLabelNode* start;
-    SKLabelNode* highscore;
-    SKLabelNode* options;
-    SKLabelNode* instructions;
-    SKLabelNode* spinWheel;
+@interface GameScene () <SKPhysicsContactDelegate> {
+    SKShapeNode *ball;
 }
 
-- (void)didMoveToView:(SKView *)view {
-    self.backgroundColor = [SKColor blackColor];
-    
-    start = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    highscore = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    options = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    instructions = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    spinWheel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    
-    start.fontSize = 40;
-    start.fontColor = [SKColor greenColor];
-    start.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    start.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    [start setText:@"New Game"];
-    start.name = @"Start";
-    [self addChild:start];
+@end;
 
-    highscore.fontSize = 40;
-    highscore.fontColor = [SKColor yellowColor];
-    highscore.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-4*(start.frame.size.height));
-    highscore.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    [highscore setText:@"Highscores"];
-    highscore.name = @"Score";
-    [self addChild:highscore];
+
+@implementation GameScene
+
+- (void)didMoveToView:(SKView *)view {
+    //Most of the physics / ball creation code is from my last project
+    self.physicsWorld.contactDelegate = self;
+    self.physicsWorld.gravity = CGVectorMake(0.0f, 0.0f);
+    self.physicsBody.friction = 0.0f;
+    SKPhysicsBody* borderBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    self.physicsBody = borderBody;
+    self.physicsBody.friction = 0.0f;
     
-    options.fontSize = 40;
-    options.fontColor = [SKColor redColor];
-    options.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-8*(start.frame.size.height));
-    options.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    [options setText:@"Options"];
-    options.name = @"Options";
-    [self addChild:options];
+    //Add a ball with physics
+    //Drawing the ball was found from here: http://stackoverflow.com/questions/24078687/draw-smooth-circle-in-ios-sprite-kit
+    CGRect circle = CGRectMake(10.0, 10.0, 20.0, 20.0);
+    ball = [[SKShapeNode alloc] init];
+    ball.path = [UIBezierPath bezierPathWithOvalInRect:circle].CGPath;
+    ball.fillColor = [SKColor redColor];
+    ball.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    ball.lineWidth = 0;
     
-    instructions.fontSize = 40;
-    instructions.fontColor = [SKColor cyanColor];
-    instructions.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-12*(start.frame.size.height));
-    instructions.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    [instructions setText:@"Instructions"];
-    instructions.name = @"Instructions";
-    [self addChild:instructions];
-    
-    spinWheel.fontSize = 60;
-    spinWheel.fontColor = [SKColor whiteColor];
-    spinWheel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)+self.frame.size.height/2 - 75);
-    spinWheel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    [spinWheel setText:@"Spin Wheel"];
-    [self addChild:spinWheel];
+    ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball.frame.size.width/2];
+    ball.physicsBody.friction = 0.0f;
+    ball.physicsBody.restitution = 1.0f;
+    ball.physicsBody.linearDamping = 0.0f;
+    ball.physicsBody.dynamic = YES; //enables forces to interact
+    ball.physicsBody.allowsRotation = NO;
+    ball.name = @"Ball";
+
 }
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSArray *touchesArray = [touches allObjects];
-    for(int i=0; i<[touchesArray count]; i++) {
-        UITouch *touch = (UITouch *)[touchesArray objectAtIndex:i];
-        CGPoint location = [touch locationInView:nil];
-        CGPoint startOrg;
-        startOrg.x = start.position.x+self.frame.size.width/4;
-        startOrg.y = start.position.y+self.frame.size.height/4;
-        
-        CGRect startRec = {startOrg, start.frame.size};
-        NSLog(@"X: %f Y: %f",location.x, location.y);
-        
-        if (CGRectContainsPoint(startRec, location)) {
-            NSLog(@"START!");
-        }
-        // do something with 'point'
-    }
 }
 
 
