@@ -46,7 +46,7 @@
     CGRect circle = CGRectMake(20.0, 20.0, 40.0, 40.0);
     ball = [[SKShapeNode alloc] init];
     ball.path = [UIBezierPath bezierPathWithOvalInRect:circle].CGPath;
-    ball.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    ball.position = CGPointMake(CGRectGetMidX(self.frame)-34, CGRectGetMidY(self.frame));
     ball.lineWidth = 0;
     
     //physics for the ball
@@ -58,7 +58,7 @@
     [self addChild:ball];
     
     [self addCircle];
-    [self rotateCircle];
+    //[self rotateCircle];
     [self addRectangle];
     [self rotateRectangle];
     
@@ -131,12 +131,40 @@
 }
 
 - (void)addRectangle {
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(0,-200)];
-    [path addLineToPoint:CGPointMake(0, -160)];
-    [path addArcWithCenter:CGPointZero radius:160 startAngle:3.0 * M_PI_2 endAngle:0 clockwise:YES];
-    [path addLineToPoint:CGPointMake(200, 0)];
-    [path addArcWithCenter:CGPointZero radius:200 startAngle:0 endAngle:3.0* M_PI_2 clockwise:NO];
+    CGSize size;
+    size.height = 40;
+    size.width = 400;
+    CGPoint origin;
+    origin.x = -200;
+    origin.y = -200;
+    CGRect rect;
+    rect.origin = origin;
+    rect.size = size;
+    
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
+    myRectangle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle1.strokeColor = [SKColor greenColor];
+    myRectangle1.fillColor = [SKColor greenColor];
+    [self addChild:myRectangle1];
+    
+    myRectangle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle2.strokeColor = [SKColor redColor];
+    myRectangle2.fillColor = [SKColor redColor];
+    myRectangle2.zRotation = M_PI_2;
+    [self addChild:myRectangle2];
+    
+    myRectangle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle3.strokeColor = [SKColor blueColor];
+    myRectangle3.fillColor = [SKColor blueColor];
+    myRectangle3.zRotation = M_PI;
+    [self addChild:myRectangle3];
+    
+    myRectangle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle4.strokeColor = [SKColor yellowColor];
+    myRectangle4.fillColor = [SKColor yellowColor];
+    myRectangle4.zRotation = 3*M_PI_2;
+    [self addChild:myRectangle4];
+
 }
 
 - (void)rotateRectangle {
