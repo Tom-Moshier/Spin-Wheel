@@ -15,13 +15,17 @@
 @end;
 
 
+
 @implementation GameScene
 
 - (void)didMoveToView:(SKView *)view {
+    self.backgroundColor = [SKColor blackColor];
+    
     //Most of the physics / ball creation code is from my last project
+    
+    //creating gravity
+    self.physicsWorld.gravity = CGVectorMake(0.0f, -10.0f);
     self.physicsWorld.contactDelegate = self;
-    self.physicsWorld.gravity = CGVectorMake(0.0f, 0.0f);
-    self.physicsBody.friction = 0.0f;
     SKPhysicsBody* borderBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     self.physicsBody = borderBody;
     self.physicsBody.friction = 0.0f;
@@ -31,22 +35,24 @@
     CGRect circle = CGRectMake(10.0, 10.0, 20.0, 20.0);
     ball = [[SKShapeNode alloc] init];
     ball.path = [UIBezierPath bezierPathWithOvalInRect:circle].CGPath;
-    ball.fillColor = [SKColor redColor];
+    ball.fillColor = [SKColor greenColor];
     ball.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     ball.lineWidth = 0;
     
     ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball.frame.size.width/2];
-    ball.physicsBody.friction = 0.0f;
-    ball.physicsBody.restitution = 1.0f;
-    ball.physicsBody.linearDamping = 0.0f;
-    ball.physicsBody.dynamic = YES; //enables forces to interact
+    ball.physicsBody.dynamic = YES;
     ball.physicsBody.allowsRotation = NO;
     ball.name = @"Ball";
+    
+    [self addChild:ball];
 
 }
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    //Impluse code was found here: https://digitalbreed.com/2014/02/10/how-to-build-a-game-like-flappy-bird-with-xcode-and-sprite-kit/
+    ball.physicsBody.velocity = CGVectorMake(0, 0);
+    [ball.physicsBody applyImpulse:CGVectorMake(0, 6)];
 }
 
 
