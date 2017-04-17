@@ -9,9 +9,7 @@
 #import "GameScene.h"
 #import <math.h>
 
-static const uint32_t ballCategory  = 0x1 << 0;  // 00000000000000000000000000000001
-static const uint32_t triangleCategory = 0x1 << 1; // 00000000000000000000000000000010
-static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000100
+
 
 @interface GameScene () <SKPhysicsContactDelegate> {
     SKShapeNode *ball;
@@ -31,6 +29,8 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     SKLabelNode* scoreLabel;
     SKLabelNode* numberLabel;
     int scoreNumber;
+    
+    int speed;
 }
 
 @end;
@@ -51,6 +51,7 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     //making a frame so the ball can't go past
     SKPhysicsBody* borderBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     self.physicsBody = borderBody;
+    self.physicsBody.friction = 0.0f;
     
     //Drawing the ball was found from here: http://stackoverflow.com/questions/24078687/draw-smooth-circle-in-ios-sprite-kit
     CGRect circle = CGRectMake(20.0, 20.0, 40.0, 40.0);
@@ -63,17 +64,16 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball.frame.size.width/2];
     ball.physicsBody.dynamic = NO;
     ball.physicsBody.allowsRotation = NO;
-    ball.physicsBody.categoryBitMask = ballCategory;
-    ball.physicsBody.contactTestBitMask = spinCategory | triangleCategory;
-    ball.physicsBody.collisionBitMask = 0;
     
     [self colorBall];
     [self addChild:ball];
     
+    speed = 20;
+    
     [self addCircle];
-    [self rotateCircle];
+    [self rotateCircle:speed];
     [self addRectangle];
-    [self rotateRectangle];
+    [self rotateRectangle:speed];
     [self addTriangle];
     
     scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
@@ -93,7 +93,6 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
     [self addChild:numberLabel];
     
-
 }
 
 - (void)colorBall {
@@ -126,40 +125,7 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myTriangle.strokeColor = [SKColor whiteColor];
     myTriangle.fillColor = [SKColor whiteColor];
     myTriangle.position = CGPointMake(-34, self.frame.size.height/2 -250);
-    myTriangle.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myTriangle.physicsBody.categoryBitMask = triangleCategory;
-    myTriangle.physicsBody.collisionBitMask = 0;
-    myTriangle.physicsBody.affectedByGravity = false;
-    myTriangle.physicsBody.dynamic = YES;
     [self addChild:myTriangle];
-    
-}
-
--(void)didBeginContact:(SKPhysicsContact*)contact {
-    SKPhysicsBody* firstBody;
-    SKPhysicsBody* secondBody;
-    if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask) {
-        firstBody = contact.bodyA;
-        secondBody = contact.bodyB;
-    } else {
-        firstBody = contact.bodyB;
-        secondBody = contact.bodyA;
-    }
-    SKShapeNode *first = (SKShapeNode*)firstBody;
-    SKShapeNode *second = (SKShapeNode*)secondBody;
-    if (firstBody.categoryBitMask == ballCategory  && secondBody.categoryBitMask == spinCategory) {
-        if(first.fillColor != second.fillColor) {
-            [self gameOver];
-        }
-    }
-    if (firstBody.categoryBitMask == ballCategory  && secondBody.categoryBitMask == triangleCategory) {
-        scoreNumber++;
-        numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
-        [self changeTriangle];
-    }
-}
-
--(void) gameOver {
     
 }
 
@@ -169,6 +135,16 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     }
     else {
         myTriangle.position =  CGPointMake(-34,self.frame.size.height/2 -250);
+    }
+    [self changeSpeed];
+    [self colorBall];
+}
+
+- (void) changeSpeed {
+    if (speed > 12) {
+        speed -=0.05;
+        [self rotateCircle:speed];
+        [self rotateRectangle:speed];
     }
 }
 
@@ -191,10 +167,6 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myCircle1.strokeColor = [SKColor greenColor];
     myCircle1.fillColor = [SKColor greenColor];
     myCircle1.position = CGPointMake(0, -self.frame.size.height/2 +250);
-    myCircle1.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle1.physicsBody.categoryBitMask = spinCategory;
-    myCircle1.physicsBody.collisionBitMask = 0;
-    myCircle1.physicsBody.affectedByGravity = false;
     [self addChild:myCircle1];
     
     myCircle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
@@ -202,10 +174,6 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myCircle2.fillColor = [SKColor redColor];
     myCircle2.zRotation = M_PI_2;
     myCircle2.position = CGPointMake(0, -self.frame.size.height/2 +250);
-    myCircle2.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle2.physicsBody.categoryBitMask = spinCategory;
-    myCircle2.physicsBody.collisionBitMask = 0;
-    myCircle2.physicsBody.affectedByGravity = false;
     [self addChild:myCircle2];
     
     myCircle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
@@ -213,10 +181,6 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myCircle3.fillColor = [SKColor blueColor];
     myCircle3.zRotation = M_PI;
     myCircle3.position = CGPointMake(0, -self.frame.size.height/2 +250);
-    myCircle3.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle3.physicsBody.categoryBitMask = spinCategory;
-    myCircle3.physicsBody.collisionBitMask = 0;
-    myCircle3.physicsBody.affectedByGravity = false;
     [self addChild:myCircle3];
     
     myCircle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
@@ -224,15 +188,11 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myCircle4.fillColor = [SKColor yellowColor];
     myCircle4.zRotation = 3*M_PI_2;
     myCircle4.position = CGPointMake(0, -self.frame.size.height/2 +250);
-    myCircle4.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle4.physicsBody.categoryBitMask = spinCategory;
-    myCircle4.physicsBody.collisionBitMask = 0;
-    myCircle4.physicsBody.affectedByGravity = false;
     [self addChild:myCircle4];
 }
 
-- (void)rotateCircle {
-    SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:20];
+- (void)rotateCircle:(int)number {
+    SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:number];
     SKAction *repeat = [SKAction repeatActionForever:rotation];
     [myCircle1 runAction:repeat];
     [myCircle2 runAction:repeat];
@@ -256,10 +216,6 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myRectangle1.strokeColor = [SKColor greenColor];
     myRectangle1.fillColor = [SKColor greenColor];
     myRectangle1.position = CGPointMake(0, self.frame.size.height/2 -250);
-    myRectangle1.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle1.physicsBody.categoryBitMask = spinCategory;
-    myRectangle1.physicsBody.collisionBitMask = 0;
-    myRectangle1.physicsBody.affectedByGravity = false;
     [self addChild:myRectangle1];
     
     myRectangle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
@@ -267,10 +223,6 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myRectangle2.fillColor = [SKColor redColor];
     myRectangle2.zRotation = M_PI_2;
     myRectangle2.position = CGPointMake(0, self.frame.size.height/2 -250);
-    myRectangle2.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle2.physicsBody.categoryBitMask = spinCategory;
-    myRectangle2.physicsBody.collisionBitMask = 0;
-    myRectangle2.physicsBody.affectedByGravity = false;
     [self addChild:myRectangle2];
     
     myRectangle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
@@ -278,10 +230,6 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myRectangle3.fillColor = [SKColor blueColor];
     myRectangle3.zRotation = M_PI;
     myRectangle3.position = CGPointMake(0, self.frame.size.height/2 -250);
-    myRectangle3.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle3.physicsBody.categoryBitMask = spinCategory;
-    myRectangle3.physicsBody.collisionBitMask = 0;
-    myRectangle3.physicsBody.affectedByGravity = false;
     [self addChild:myRectangle3];
     
     myRectangle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
@@ -289,16 +237,12 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
     myRectangle4.fillColor = [SKColor yellowColor];
     myRectangle4.zRotation = 3*M_PI_2;
     myRectangle4.position = CGPointMake(0, self.frame.size.height/2 -250);
-    myRectangle4.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle4.physicsBody.categoryBitMask = spinCategory;
-    myRectangle4.physicsBody.collisionBitMask = 0;
-    myRectangle4.physicsBody.affectedByGravity = false;
     [self addChild:myRectangle4];
 
 }
 
-- (void)rotateRectangle {
-    SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:20];
+- (void)rotateRectangle:(int)number {
+    SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:number];
     SKAction *repeat = [SKAction repeatActionForever:rotation];
     [myRectangle1 runAction:repeat];
     [myRectangle2 runAction:repeat];
@@ -321,8 +265,9 @@ static const uint32_t spinCategory = 0x1 << 2;  // 00000000000000000000000000000
 }
 
 
+
 -(void)update:(CFTimeInterval)currentTime {
-    // Called before each frame is rendered
+    if()
 }
 
 @end
