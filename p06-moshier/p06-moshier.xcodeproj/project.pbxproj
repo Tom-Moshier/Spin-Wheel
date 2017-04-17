@@ -7,29 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2DE33F11E944F52000FDCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DE33F01E944F52000FDCFA /* main.m */; };
-		E2DE33F41E944F52000FDCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DE33F31E944F52000FDCFA /* AppDelegate.m */; };
-		E2DE33F71E944F52000FDCFA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DE33F61E944F52000FDCFA /* ViewController.m */; };
-		E2DE33FA1E944F52000FDCFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2DE33F81E944F52000FDCFA /* Main.storyboard */; };
-		E2DE33FC1E944F52000FDCFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2DE33FB1E944F52000FDCFA /* Assets.xcassets */; };
-		E2DE33FF1E944F52000FDCFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2DE33FD1E944F52000FDCFA /* LaunchScreen.storyboard */; };
+		E2677B551EA43B4900210B7A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2677B541EA43B4900210B7A /* main.m */; };
+		E2677B581EA43B4900210B7A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2677B571EA43B4900210B7A /* AppDelegate.m */; };
+		E2677B5A1EA43B4900210B7A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E2677B591EA43B4900210B7A /* GameScene.sks */; };
+		E2677B5C1EA43B4900210B7A /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E2677B5B1EA43B4900210B7A /* Actions.sks */; };
+		E2677B5F1EA43B4900210B7A /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = E2677B5E1EA43B4900210B7A /* GameScene.m */; };
+		E2677B621EA43B4900210B7A /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2677B611EA43B4900210B7A /* GameViewController.m */; };
+		E2677B651EA43B4900210B7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2677B631EA43B4900210B7A /* Main.storyboard */; };
+		E2677B671EA43B4900210B7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2677B661EA43B4900210B7A /* Assets.xcassets */; };
+		E2677B6A1EA43B4900210B7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2677B681EA43B4900210B7A /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E2DE33EC1E944F52000FDCFA /* p06-moshier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "p06-moshier.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2DE33F01E944F52000FDCFA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E2DE33F21E944F52000FDCFA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E2DE33F31E944F52000FDCFA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E2DE33F51E944F52000FDCFA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E2DE33F61E944F52000FDCFA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		E2DE33F91E944F52000FDCFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E2DE33FB1E944F52000FDCFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E2DE33FE1E944F52000FDCFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		E2DE34001E944F52000FDCFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2677B501EA43B4900210B7A /* p06-moshier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "p06-moshier.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2677B541EA43B4900210B7A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E2677B561EA43B4900210B7A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E2677B571EA43B4900210B7A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E2677B591EA43B4900210B7A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		E2677B5B1EA43B4900210B7A /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		E2677B5D1EA43B4900210B7A /* GameScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		E2677B5E1EA43B4900210B7A /* GameScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		E2677B601EA43B4900210B7A /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		E2677B611EA43B4900210B7A /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		E2677B641EA43B4900210B7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E2677B661EA43B4900210B7A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E2677B691EA43B4900210B7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E2677B6B1EA43B4900210B7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E2DE33E91E944F52000FDCFA /* Frameworks */ = {
+		E2677B4D1EA43B4900210B7A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -39,42 +46,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E2DE33E31E944F52000FDCFA = {
+		E2677B471EA43B4900210B7A = {
 			isa = PBXGroup;
 			children = (
-				E2DE33EE1E944F52000FDCFA /* p06-moshier */,
-				E2DE33ED1E944F52000FDCFA /* Products */,
+				E2677B521EA43B4900210B7A /* p06-moshier */,
+				E2677B511EA43B4900210B7A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		E2DE33ED1E944F52000FDCFA /* Products */ = {
+		E2677B511EA43B4900210B7A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E2DE33EC1E944F52000FDCFA /* p06-moshier.app */,
+				E2677B501EA43B4900210B7A /* p06-moshier.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E2DE33EE1E944F52000FDCFA /* p06-moshier */ = {
+		E2677B521EA43B4900210B7A /* p06-moshier */ = {
 			isa = PBXGroup;
 			children = (
-				E2DE33F21E944F52000FDCFA /* AppDelegate.h */,
-				E2DE33F31E944F52000FDCFA /* AppDelegate.m */,
-				E2DE33F51E944F52000FDCFA /* ViewController.h */,
-				E2DE33F61E944F52000FDCFA /* ViewController.m */,
-				E2DE33F81E944F52000FDCFA /* Main.storyboard */,
-				E2DE33FB1E944F52000FDCFA /* Assets.xcassets */,
-				E2DE33FD1E944F52000FDCFA /* LaunchScreen.storyboard */,
-				E2DE34001E944F52000FDCFA /* Info.plist */,
-				E2DE33EF1E944F52000FDCFA /* Supporting Files */,
+				E2677B561EA43B4900210B7A /* AppDelegate.h */,
+				E2677B571EA43B4900210B7A /* AppDelegate.m */,
+				E2677B591EA43B4900210B7A /* GameScene.sks */,
+				E2677B5B1EA43B4900210B7A /* Actions.sks */,
+				E2677B5D1EA43B4900210B7A /* GameScene.h */,
+				E2677B5E1EA43B4900210B7A /* GameScene.m */,
+				E2677B601EA43B4900210B7A /* GameViewController.h */,
+				E2677B611EA43B4900210B7A /* GameViewController.m */,
+				E2677B631EA43B4900210B7A /* Main.storyboard */,
+				E2677B661EA43B4900210B7A /* Assets.xcassets */,
+				E2677B681EA43B4900210B7A /* LaunchScreen.storyboard */,
+				E2677B6B1EA43B4900210B7A /* Info.plist */,
+				E2677B531EA43B4900210B7A /* Supporting Files */,
 			);
 			path = "p06-moshier";
 			sourceTree = "<group>";
 		};
-		E2DE33EF1E944F52000FDCFA /* Supporting Files */ = {
+		E2677B531EA43B4900210B7A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E2DE33F01E944F52000FDCFA /* main.m */,
+				E2677B541EA43B4900210B7A /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -82,13 +93,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E2DE33EB1E944F52000FDCFA /* p06-moshier */ = {
+		E2677B4F1EA43B4900210B7A /* p06-moshier */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E2DE34031E944F52000FDCFA /* Build configuration list for PBXNativeTarget "p06-moshier" */;
+			buildConfigurationList = E2677B6E1EA43B4900210B7A /* Build configuration list for PBXNativeTarget "p06-moshier" */;
 			buildPhases = (
-				E2DE33E81E944F52000FDCFA /* Sources */,
-				E2DE33E91E944F52000FDCFA /* Frameworks */,
-				E2DE33EA1E944F52000FDCFA /* Resources */,
+				E2677B4C1EA43B4900210B7A /* Sources */,
+				E2677B4D1EA43B4900210B7A /* Frameworks */,
+				E2677B4E1EA43B4900210B7A /* Resources */,
 			);
 			buildRules = (
 			);
@@ -96,26 +107,26 @@
 			);
 			name = "p06-moshier";
 			productName = "p06-moshier";
-			productReference = E2DE33EC1E944F52000FDCFA /* p06-moshier.app */;
+			productReference = E2677B501EA43B4900210B7A /* p06-moshier.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		E2DE33E41E944F52000FDCFA /* Project object */ = {
+		E2677B481EA43B4900210B7A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Tom Moshier";
 				TargetAttributes = {
-					E2DE33EB1E944F52000FDCFA = {
-						CreatedOnToolsVersion = 8.3;
+					E2677B4F1EA43B4900210B7A = {
+						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = CDHF98YNN5;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = E2DE33E71E944F52000FDCFA /* Build configuration list for PBXProject "p06-moshier" */;
+			buildConfigurationList = E2677B4B1EA43B4900210B7A /* Build configuration list for PBXProject "p06-moshier" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -123,55 +134,58 @@
 				en,
 				Base,
 			);
-			mainGroup = E2DE33E31E944F52000FDCFA;
-			productRefGroup = E2DE33ED1E944F52000FDCFA /* Products */;
+			mainGroup = E2677B471EA43B4900210B7A;
+			productRefGroup = E2677B511EA43B4900210B7A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E2DE33EB1E944F52000FDCFA /* p06-moshier */,
+				E2677B4F1EA43B4900210B7A /* p06-moshier */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E2DE33EA1E944F52000FDCFA /* Resources */ = {
+		E2677B4E1EA43B4900210B7A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2DE33FF1E944F52000FDCFA /* LaunchScreen.storyboard in Resources */,
-				E2DE33FC1E944F52000FDCFA /* Assets.xcassets in Resources */,
-				E2DE33FA1E944F52000FDCFA /* Main.storyboard in Resources */,
+				E2677B651EA43B4900210B7A /* Main.storyboard in Resources */,
+				E2677B5A1EA43B4900210B7A /* GameScene.sks in Resources */,
+				E2677B671EA43B4900210B7A /* Assets.xcassets in Resources */,
+				E2677B6A1EA43B4900210B7A /* LaunchScreen.storyboard in Resources */,
+				E2677B5C1EA43B4900210B7A /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		E2DE33E81E944F52000FDCFA /* Sources */ = {
+		E2677B4C1EA43B4900210B7A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2DE33F71E944F52000FDCFA /* ViewController.m in Sources */,
-				E2DE33F41E944F52000FDCFA /* AppDelegate.m in Sources */,
-				E2DE33F11E944F52000FDCFA /* main.m in Sources */,
+				E2677B621EA43B4900210B7A /* GameViewController.m in Sources */,
+				E2677B581EA43B4900210B7A /* AppDelegate.m in Sources */,
+				E2677B5F1EA43B4900210B7A /* GameScene.m in Sources */,
+				E2677B551EA43B4900210B7A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E2DE33F81E944F52000FDCFA /* Main.storyboard */ = {
+		E2677B631EA43B4900210B7A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E2DE33F91E944F52000FDCFA /* Base */,
+				E2677B641EA43B4900210B7A /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		E2DE33FD1E944F52000FDCFA /* LaunchScreen.storyboard */ = {
+		E2677B681EA43B4900210B7A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E2DE33FE1E944F52000FDCFA /* Base */,
+				E2677B691EA43B4900210B7A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -179,7 +193,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		E2DE34011E944F52000FDCFA /* Debug */ = {
+		E2677B6C1EA43B4900210B7A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -227,7 +241,7 @@
 			};
 			name = Debug;
 		};
-		E2DE34021E944F52000FDCFA /* Release */ = {
+		E2677B6D1EA43B4900210B7A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -269,7 +283,7 @@
 			};
 			name = Release;
 		};
-		E2DE34041E944F52000FDCFA /* Debug */ = {
+		E2677B6F1EA43B4900210B7A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -281,7 +295,7 @@
 			};
 			name = Debug;
 		};
-		E2DE34051E944F52000FDCFA /* Release */ = {
+		E2677B701EA43B4900210B7A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -296,24 +310,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E2DE33E71E944F52000FDCFA /* Build configuration list for PBXProject "p06-moshier" */ = {
+		E2677B4B1EA43B4900210B7A /* Build configuration list for PBXProject "p06-moshier" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E2DE34011E944F52000FDCFA /* Debug */,
-				E2DE34021E944F52000FDCFA /* Release */,
+				E2677B6C1EA43B4900210B7A /* Debug */,
+				E2677B6D1EA43B4900210B7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E2DE34031E944F52000FDCFA /* Build configuration list for PBXNativeTarget "p06-moshier" */ = {
+		E2677B6E1EA43B4900210B7A /* Build configuration list for PBXNativeTarget "p06-moshier" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E2DE34041E944F52000FDCFA /* Debug */,
-				E2DE34051E944F52000FDCFA /* Release */,
+				E2677B6F1EA43B4900210B7A /* Debug */,
+				E2677B701EA43B4900210B7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = E2DE33E41E944F52000FDCFA /* Project object */;
+	rootObject = E2677B481EA43B4900210B7A /* Project object */;
 }

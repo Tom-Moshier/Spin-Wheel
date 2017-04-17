@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E2DE33EB1E944F52000FDCFA"
+               BlueprintIdentifier = "E2677B4F1EA43B4900210B7A"
                BuildableName = "p06-moshier.app"
                BlueprintName = "p06-moshier"
                ReferencedContainer = "container:p06-moshier.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E2DE33EB1E944F52000FDCFA"
+            BlueprintIdentifier = "E2677B4F1EA43B4900210B7A"
             BuildableName = "p06-moshier.app"
             BlueprintName = "p06-moshier"
             ReferencedContainer = "container:p06-moshier.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E2DE33EB1E944F52000FDCFA"
+            BlueprintIdentifier = "E2677B4F1EA43B4900210B7A"
             BuildableName = "p06-moshier.app"
             BlueprintName = "p06-moshier"
             ReferencedContainer = "container:p06-moshier.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E2DE33EB1E944F52000FDCFA"
+            BlueprintIdentifier = "E2677B4F1EA43B4900210B7A"
             BuildableName = "p06-moshier.app"
             BlueprintName = "p06-moshier"
             ReferencedContainer = "container:p06-moshier.xcodeproj">

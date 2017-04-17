@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  GameViewController.h
 //  p06-moshier
 //
 //  Created by Tom Moshier on 4/16/17.
@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SpriteKit/SpriteKit.h>
+#import <GameplayKit/GameplayKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
-
+@interface GameViewController : UIViewController
 
 @end
-
