@@ -138,6 +138,8 @@
     }
     [self changeSpeed];
     [self colorBall];
+    scoreNumber += 1;
+    numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
 }
 
 - (void) changeSpeed {
@@ -261,13 +263,17 @@
         ball.physicsBody.velocity = CGVectorMake(0, 0);
         [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
     }
-    [self changeTriangle];
 }
 
 
 
 -(void)update:(CFTimeInterval)currentTime {
-    if()
+    if(ball.position.y >= myTriangle.position.y-40 && myTriangle.position.y == self.frame.size.height/2 -250) {
+        [self changeTriangle];
+    }
+    else if (ball.position.y <= myTriangle.position.y+40 && myTriangle.position.y == -self.frame.size.height/2 +230) {
+        [self changeTriangle];
+    }
 }
 
 @end
