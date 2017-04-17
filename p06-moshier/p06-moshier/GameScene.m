@@ -100,24 +100,28 @@
     myCircle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle1.strokeColor = [SKColor greenColor];
     myCircle1.fillColor = [SKColor greenColor];
+    myCircle1.position = CGPointMake(0, -self.frame.size.height/2 +250);
     [self addChild:myCircle1];
     
     myCircle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle2.strokeColor = [SKColor redColor];
     myCircle2.fillColor = [SKColor redColor];
     myCircle2.zRotation = M_PI_2;
+    myCircle2.position = CGPointMake(0, -self.frame.size.height/2 +250);
     [self addChild:myCircle2];
     
     myCircle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle3.strokeColor = [SKColor blueColor];
     myCircle3.fillColor = [SKColor blueColor];
     myCircle3.zRotation = M_PI;
+    myCircle3.position = CGPointMake(0, -self.frame.size.height/2 +250);
     [self addChild:myCircle3];
     
     myCircle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle4.strokeColor = [SKColor yellowColor];
     myCircle4.fillColor = [SKColor yellowColor];
     myCircle4.zRotation = 3*M_PI_2;
+    myCircle4.position = CGPointMake(0, -self.frame.size.height/2 +250);
     [self addChild:myCircle4];
 }
 
@@ -145,24 +149,28 @@
     myRectangle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myRectangle1.strokeColor = [SKColor greenColor];
     myRectangle1.fillColor = [SKColor greenColor];
+    myRectangle1.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle1];
     
     myRectangle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myRectangle2.strokeColor = [SKColor redColor];
     myRectangle2.fillColor = [SKColor redColor];
     myRectangle2.zRotation = M_PI_2;
+    myRectangle2.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle2];
     
     myRectangle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myRectangle3.strokeColor = [SKColor blueColor];
     myRectangle3.fillColor = [SKColor blueColor];
     myRectangle3.zRotation = M_PI;
+    myRectangle3.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle3];
     
     myRectangle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myRectangle4.strokeColor = [SKColor yellowColor];
     myRectangle4.fillColor = [SKColor yellowColor];
     myRectangle4.zRotation = 3*M_PI_2;
+    myRectangle4.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle4];
 
 }
