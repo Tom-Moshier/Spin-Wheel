@@ -11,6 +11,7 @@
 
 @interface GameScene () <SKPhysicsContactDelegate> {
     SKShapeNode *ball;
+    
     SKShapeNode *myCircle1;
     SKShapeNode *myCircle2;
     SKShapeNode *myCircle3;
@@ -20,6 +21,8 @@
     SKShapeNode *myRectangle2;
     SKShapeNode *myRectangle3;
     SKShapeNode *myRectangle4;
+    
+    SKShapeNode *myTriangle;
 }
 
 @end;
@@ -58,9 +61,10 @@
     [self addChild:ball];
     
     [self addCircle];
-    //[self rotateCircle];
+    [self rotateCircle];
     [self addRectangle];
     [self rotateRectangle];
+    [self addTriangle];
     
 
 }
@@ -83,9 +87,35 @@
     }
 }
 
+- (void) addTriangle {
+    UIBezierPath *path = [UIBezierPath bezierPath];
+
+    [path moveToPoint:CGPointMake(0, 0)];
+    [path addLineToPoint:CGPointMake(80,0)];
+    [path addLineToPoint:CGPointMake(40, 80)];
+    [path closePath];
+    
+    myTriangle = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myTriangle.strokeColor = [SKColor cyanColor];
+    myTriangle.fillColor = [SKColor cyanColor];
+    myTriangle.position = CGPointMake(-34, self.frame.size.height/2 -250);
+    [self addChild:myTriangle];
+    
+}
+
+- (void) changeTriangle {
+    if(myTriangle.position.y ==  self.frame.size.height/2 -250) {
+        myTriangle.position =  CGPointMake(-34,-self.frame.size.height/2 +230);
+    }
+    else {
+        myTriangle.position =  CGPointMake(-34,self.frame.size.height/2 -250);
+    }
+}
+
 -(int)getRandomNumberBetween:(int)from to:(int)to {
     return (int)from + arc4random() % (to-from+1);
 }
+
 
 - (void)addCircle {
     // a lot of code has been translated from swift to objective c
@@ -195,6 +225,7 @@
         ball.physicsBody.velocity = CGVectorMake(0, 0);
         [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
     }
+    [self changeTriangle];
 }
 
 
