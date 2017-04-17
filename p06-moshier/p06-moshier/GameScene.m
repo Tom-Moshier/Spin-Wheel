@@ -43,10 +43,9 @@
     self.physicsBody.friction = 0.0f;
     
     //Drawing the ball was found from here: http://stackoverflow.com/questions/24078687/draw-smooth-circle-in-ios-sprite-kit
-    CGRect circle = CGRectMake(10.0, 10.0, 20.0, 20.0);
+    CGRect circle = CGRectMake(20.0, 20.0, 40.0, 40.0);
     ball = [[SKShapeNode alloc] init];
     ball.path = [UIBezierPath bezierPathWithOvalInRect:circle].CGPath;
-    ball.fillColor = [SKColor greenColor];
     ball.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
     ball.lineWidth = 0;
     
@@ -55,12 +54,37 @@
     ball.physicsBody.dynamic = NO;
     ball.physicsBody.allowsRotation = NO;
     ball.name = @"Ball";
+    [self colorBall];
     [self addChild:ball];
     
     [self addCircle];
     [self rotateCircle];
     [self addRectangle];
+    [self rotateRectangle];
+    
 
+}
+
+- (void)colorBall {
+    int num;
+    num = [self getRandomNumberBetween:1 to:4];
+    NSLog(@"%d",num);
+    if(num == 1) {
+        ball.fillColor = [SKColor blueColor];
+    }
+    else if(num == 2) {
+        ball.fillColor = [SKColor yellowColor];
+    }
+    else if(num == 3) {
+        ball.fillColor = [SKColor redColor];
+    }
+    else {
+        ball.fillColor = [SKColor greenColor];
+    }
+}
+
+-(int)getRandomNumberBetween:(int)from to:(int)to {
+    return (int)from + arc4random() % (to-from+1);
 }
 
 - (void)addCircle {
@@ -107,7 +131,21 @@
 }
 
 - (void)addRectangle {
-    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0,-200)];
+    [path addLineToPoint:CGPointMake(0, -160)];
+    [path addArcWithCenter:CGPointZero radius:160 startAngle:3.0 * M_PI_2 endAngle:0 clockwise:YES];
+    [path addLineToPoint:CGPointMake(200, 0)];
+    [path addArcWithCenter:CGPointZero radius:200 startAngle:0 endAngle:3.0* M_PI_2 clockwise:NO];
+}
+
+- (void)rotateRectangle {
+    SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:20];
+    SKAction *repeat = [SKAction repeatActionForever:rotation];
+    [myRectangle1 runAction:repeat];
+    [myRectangle2 runAction:repeat];
+    [myRectangle3 runAction:repeat];
+    [myRectangle4 runAction:repeat];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -115,11 +153,11 @@
     if(ball.physicsBody.dynamic == NO) {
         ball.physicsBody.dynamic = YES;
         ball.physicsBody.velocity = CGVectorMake(0, 0);
-        [ball.physicsBody applyImpulse:CGVectorMake(0, 6)];
+        [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
     }
     else {
         ball.physicsBody.velocity = CGVectorMake(0, 0);
-        [ball.physicsBody applyImpulse:CGVectorMake(0, 6)];
+        [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
     }
 }
 
