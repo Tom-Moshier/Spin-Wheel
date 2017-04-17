@@ -32,7 +32,7 @@
     [start setText:@"New Game"];
     start.name = @"Start";
     [self addChild:start];
-    
+
     highscore.fontSize = 40;
     highscore.fontColor = [SKColor yellowColor];
     highscore.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)-4*(start.frame.size.height));
@@ -68,11 +68,18 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     NSArray *touchesArray = [touches allObjects];
-    for(int i=0; i <[touchesArray count]; i++) {
+    for(int i=0; i<[touchesArray count]; i++) {
         UITouch *touch = (UITouch *)[touchesArray objectAtIndex:i];
-        CGPoint point = [touch locationInView:nil];
-        if(touch.name == @"Start") {
-            
+        CGPoint location = [touch locationInView:nil];
+        CGPoint startOrg;
+        startOrg.x = start.position.x+self.frame.size.width/4;
+        startOrg.y = start.position.y+self.frame.size.height/4;
+        
+        CGRect startRec = {startOrg, start.frame.size};
+        NSLog(@"X: %f Y: %f",location.x, location.y);
+        
+        if (CGRectContainsPoint(startRec, location)) {
+            NSLog(@"START!");
         }
         // do something with 'point'
     }
