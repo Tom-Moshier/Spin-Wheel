@@ -76,10 +76,9 @@ static const uint32_t yellowCategory = 0x1 << 5;
     ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball.frame.size.width/2];
     ball.physicsBody.dynamic = NO;
     ball.physicsBody.allowsRotation = NO;
-    ball.physicsBody.collisionBitMask = 4;
+    ball.physicsBody.collisionBitMask = 0;
     
     [self colorBall];
-    [self addChild:ball];
     
     speed = 20;
     speedNum = 1;
@@ -97,6 +96,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [self addChild:holder1];
     [self addChild:holder2];
     [self createLabels];
+    [self addChild:ball];
 }
 
 -(void) createLabels {
@@ -160,6 +160,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     return (int)from + arc4random() % (to-from+1);
 }
 
+//simply makes the triangle and displays it
 - (void) addTriangle {
     UIBezierPath *path = [UIBezierPath bezierPath];
     
@@ -176,6 +177,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     
 }
 
+//changes the position from one ring to the other, then goes and changes the speed of the rings
 - (void) changeTriangle {
     if(myTriangle.position.y ==  self.frame.size.height/2 -250) {
         myTriangle.position =  CGPointMake(-34,-self.frame.size.height/2 +230);
@@ -190,11 +192,14 @@ static const uint32_t yellowCategory = 0x1 << 5;
 }
 
 - (void) changeSpeed {
-    if (speed > 12) {
-        speed -=0.2;
+    if (speed > 1) {
+        speed -=1;
+        [holder1 removeActionForKey:@"rotation"];
+        [holder2 removeActionForKey:@"rotation"];
         [self rotateCircle:speed];
         [self rotateCircle2:speed];
         speedNum += 1;
+        NSLog(@"Speed: %f",speed);
         speedLabelNum.text = [NSString stringWithFormat:@"%d", speedNum];
     }
 }
@@ -261,9 +266,10 @@ static const uint32_t yellowCategory = 0x1 << 5;
 
 
 - (void)rotateCircle:(int)number {
+    //SKAction just repeats forever
     SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:number];
     SKAction *repeat = [SKAction repeatActionForever:rotation];
-    [holder1 runAction:repeat];
+    [holder1 runAction:repeat withKey:@"rotation"];
 }
 
 - (void)addCircle2 {
@@ -326,7 +332,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
 - (void)rotateCircle2:(int)number {
     SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:number];
     SKAction *repeat = [SKAction repeatActionForever:rotation];
-    [holder2 runAction:repeat];
+    [holder2 runAction:repeat withKey:@"rotation"];
 }
 
 -(void) gameOver {
@@ -390,10 +396,8 @@ static const uint32_t yellowCategory = 0x1 << 5;
         firstBody = contact.bodyB;
         secondBody = contact.bodyA;
     }
-    if (firstBody.categoryBitMask != secondBody.categoryBitMask) {
-        NSLog(@"Maybe here it stopped?");
-        NSLog(@"1");
-        NSLog(@"Speed: %f",speed);
+    if (firstBody.categoryBitMask != secondBody.categoryBitMask && ball.physicsBody.dynamic == YES) {
+        [self gameOver];
     }
 }
 
