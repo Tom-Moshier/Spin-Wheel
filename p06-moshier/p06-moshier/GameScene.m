@@ -19,10 +19,10 @@
     SKShapeNode *myCircle3;
     SKShapeNode *myCircle4;
     
-    SKShapeNode *myRectangle1;
-    SKShapeNode *myRectangle2;
-    SKShapeNode *myRectangle3;
-    SKShapeNode *myRectangle4;
+    SKShapeNode *myCircle5;
+    SKShapeNode *myCircle6;
+    SKShapeNode *myCircle7;
+    SKShapeNode *myCircle8;
     
     SKShapeNode *myTriangle;
     
@@ -78,7 +78,6 @@ static const uint32_t yellowCategory = 0x1 << 5;
     ball.physicsBody.allowsRotation = NO;
     ball.physicsBody.collisionBitMask = 4;
     
-    
     [self colorBall];
     [self addChild:ball];
     
@@ -92,12 +91,15 @@ static const uint32_t yellowCategory = 0x1 << 5;
 
     [self addCircle];
     [self rotateCircle:speed];
-    //[self addRectangle];
-    //[self rotateRectangle:speed];
+    [self addCircle2];
+    [self rotateCircle2:speed];
     [self addTriangle];
     [self addChild:holder1];
-    
-    
+    [self addChild:holder2];
+    [self createLabels];
+}
+
+-(void) createLabels {
     scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     scoreLabel.fontSize = 70;
     scoreLabel.fontColor = [SKColor whiteColor];
@@ -154,6 +156,10 @@ static const uint32_t yellowCategory = 0x1 << 5;
     }
 }
 
+-(int)getRandomNumberBetween:(int)from to:(int)to {
+    return (int)from + arc4random() % (to-from+1);
+}
+
 - (void) addTriangle {
     UIBezierPath *path = [UIBezierPath bezierPath];
     
@@ -187,16 +193,11 @@ static const uint32_t yellowCategory = 0x1 << 5;
     if (speed > 12) {
         speed -=0.2;
         [self rotateCircle:speed];
-        [self rotateRectangle:speed];
+        [self rotateCircle2:speed];
         speedNum += 1;
         speedLabelNum.text = [NSString stringWithFormat:@"%d", speedNum];
     }
 }
-
--(int)getRandomNumberBetween:(int)from to:(int)to {
-    return (int)from + arc4random() % (to-from+1);
-}
-
 
 - (void)addCircle {
     // a lot of code has been translated from swift to objective c
@@ -212,6 +213,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     myCircle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle1.strokeColor = [SKColor greenColor];
     myCircle1.fillColor = [SKColor greenColor];
+    myCircle1.zRotation = 0;
     
     myCircle1.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
     myCircle1.physicsBody.categoryBitMask = greenCategory;
@@ -264,7 +266,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [holder1 runAction:repeat];
 }
 
-- (void)addRectangle {
+- (void)addCircle2 {
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(0,-200)];
     [path addLineToPoint:CGPointMake(0, -160)];
@@ -272,68 +274,81 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [path addLineToPoint:CGPointMake(200, 0)];
     [path addArcWithCenter:CGPointZero radius:200 startAngle:0 endAngle:3.0* M_PI_2 clockwise:NO];
     
-    myRectangle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle1.strokeColor = [SKColor redColor];
-    myRectangle1.fillColor = [SKColor redColor];
-    myRectangle1.position = CGPointMake(0, self.frame.size.height/2 -250);
+    myCircle5 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myCircle5.strokeColor = [SKColor greenColor];
+    myCircle5.fillColor = [SKColor greenColor];
+    myCircle5.zRotation = 0;
     
-    myRectangle1.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle1.physicsBody.categoryBitMask = redCategory;
-    myRectangle1.physicsBody.collisionBitMask = 0;
-    myRectangle1.physicsBody.contactTestBitMask = blueCategory | yellowCategory | greenCategory;
-    myRectangle1.physicsBody.affectedByGravity = false;
-    [self addChild:myRectangle1];
+    myCircle5.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myCircle5.physicsBody.categoryBitMask = greenCategory;
+    myCircle5.physicsBody.collisionBitMask = 0;
+    myCircle5.physicsBody.contactTestBitMask = blueCategory | yellowCategory | redCategory;
+    myCircle5.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myCircle5];
     
-    myRectangle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle2.strokeColor = [SKColor greenColor];
-    myRectangle2.fillColor = [SKColor greenColor];
-    myRectangle2.zRotation = M_PI_2;
-    myRectangle2.position = CGPointMake(0, self.frame.size.height/2 -250);
+    myCircle6 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myCircle6.strokeColor = [SKColor redColor];
+    myCircle6.fillColor = [SKColor redColor];
+    myCircle6.zRotation = M_PI_2;
     
-    myRectangle2.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle2.physicsBody.categoryBitMask = greenCategory;
-    myRectangle2.physicsBody.collisionBitMask = 0;
-    myRectangle2.physicsBody.contactTestBitMask = blueCategory | yellowCategory | redCategory;
-    myRectangle2.physicsBody.affectedByGravity = false;
-    [self addChild:myRectangle2];
+    myCircle6.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myCircle6.physicsBody.categoryBitMask = redCategory;
+    myCircle6.physicsBody.collisionBitMask = 0;
+    myCircle6.physicsBody.contactTestBitMask = blueCategory | yellowCategory | greenCategory;
+    myCircle6.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myCircle6];
     
-    myRectangle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle3.strokeColor = [SKColor yellowColor];
-    myRectangle3.fillColor = [SKColor yellowColor];
-    myRectangle3.zRotation = M_PI;
-    myRectangle3.position = CGPointMake(0, self.frame.size.height/2 -250);
+    myCircle7 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myCircle7.strokeColor = [SKColor blueColor];
+    myCircle7.fillColor = [SKColor blueColor];
+    myCircle7.zRotation = M_PI;
     
-    myRectangle3.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle3.physicsBody.categoryBitMask = yellowCategory;
-    myRectangle3.physicsBody.collisionBitMask = 0;
-    myRectangle3.physicsBody.contactTestBitMask = blueCategory | greenCategory | redCategory;
-    myRectangle3.physicsBody.affectedByGravity = false;
-    [self addChild:myRectangle3];
+    myCircle7.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myCircle7.physicsBody.categoryBitMask = blueCategory;
+    myCircle7.physicsBody.collisionBitMask = 0;
+    myCircle7.physicsBody.contactTestBitMask = greenCategory | yellowCategory | redCategory;
+    myCircle7.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myCircle7];
     
-    myRectangle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle4.strokeColor = [SKColor blueColor];
-    myRectangle4.fillColor = [SKColor blueColor];
-    myRectangle4.zRotation = 3*M_PI_2;
-    myRectangle4.position = CGPointMake(0, self.frame.size.height/2 -250);
+    myCircle8 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myCircle8.strokeColor = [SKColor yellowColor];
+    myCircle8.fillColor = [SKColor yellowColor];
+    myCircle8.zRotation = 3*M_PI_2;
     
-    myRectangle4.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myRectangle4.physicsBody.categoryBitMask = blueCategory;
-    myRectangle4.physicsBody.collisionBitMask = 0;
-    myRectangle4.physicsBody.contactTestBitMask = greenCategory | yellowCategory | redCategory;
-    myRectangle4.physicsBody.affectedByGravity = false;
-    [self addChild:myRectangle4];
-    
-    
-    
+    myCircle8.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myCircle8.physicsBody.categoryBitMask = yellowCategory;
+    myCircle8.physicsBody.collisionBitMask = 0;
+    myCircle8.physicsBody.contactTestBitMask = blueCategory | greenCategory | redCategory;
+    myCircle8.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myCircle8];
 }
 
-- (void)rotateRectangle:(int)number {
+- (void)rotateCircle2:(int)number {
     SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:number];
     SKAction *repeat = [SKAction repeatActionForever:rotation];
-    [myRectangle1 runAction:repeat];
-    [myRectangle2 runAction:repeat];
-    [myRectangle3 runAction:repeat];
-    [myRectangle4 runAction:repeat];
+    [holder2 runAction:repeat];
+}
+
+-(void) gameOver {
+    [ball removeFromParent];
+    [myCircle1 removeFromParent];
+    [myCircle2 removeFromParent];
+    [myCircle3 removeFromParent];
+    [myCircle4 removeFromParent];
+    
+    [myCircle5 removeFromParent];
+    [myCircle6 removeFromParent];
+    [myCircle7 removeFromParent];
+    [myCircle8 removeFromParent];
+    
+    [myTriangle removeFromParent];
+    
+    [scoreLabel removeFromParent];
+    [numberLabel removeFromParent];
+    [speedLabel removeFromParent];
+    [speedLabelNum removeFromParent];
+    
+    [self setUp];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -349,40 +364,18 @@ static const uint32_t yellowCategory = 0x1 << 5;
     }
 }
 
-
-
 -(void)update:(CFTimeInterval)currentTime {
+    //Checks to see if the balls gotten the triangle
     if(ball.position.y >= myTriangle.position.y-40 && myTriangle.position.y == self.frame.size.height/2 -250) {
         [self changeTriangle];
     }
     else if (ball.position.y <= myTriangle.position.y+40 && myTriangle.position.y == -self.frame.size.height/2 +230) {
         [self changeTriangle];
     }
+    //Checks to see if the balls gone out of bounds
     if(ball.position.y < -self.frame.size.height/2 || ball.position.y > self.frame.size.height/2) {
         [self gameOver];
     }
-}
-
--(void) gameOver {
-    [ball removeFromParent];
-    [myCircle1 removeFromParent];
-    [myCircle2 removeFromParent];
-    [myCircle3 removeFromParent];
-    [myCircle4 removeFromParent];
-    
-    [myRectangle1 removeFromParent];
-    [myRectangle2 removeFromParent];
-    [myRectangle3 removeFromParent];
-    [myRectangle4 removeFromParent];
-    
-    [myTriangle removeFromParent];
-    
-    [scoreLabel removeFromParent];
-    [numberLabel removeFromParent];
-    [speedLabel removeFromParent];
-    [speedLabelNum removeFromParent];
-    
-    [self setUp];
 }
 
 -(void)didBeginContact:(SKPhysicsContact*)contact {
