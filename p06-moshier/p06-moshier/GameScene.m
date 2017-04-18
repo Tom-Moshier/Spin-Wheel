@@ -250,7 +250,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     myCircle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle3.strokeColor = [SKColor blueColor];
     myCircle3.fillColor = [SKColor blueColor];
-    myCircle3.zRotation = 3*M_PI;
+    myCircle3.zRotation = 3*M_PI_2;
     
     myCircle3.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
     myCircle3.physicsBody.categoryBitMask = blueCategory;
