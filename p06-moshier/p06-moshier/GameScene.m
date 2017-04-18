@@ -226,7 +226,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     myCircle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle1.strokeColor = [SKColor greenColor];
     myCircle1.fillColor = [SKColor greenColor];
-    myCircle1.zRotation = 0;
+    myCircle1.zRotation = M_PI_2;
     
     myCircle1.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
     myCircle1.physicsBody.categoryBitMask = greenCategory;
@@ -238,7 +238,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     myCircle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle2.strokeColor = [SKColor redColor];
     myCircle2.fillColor = [SKColor redColor];
-    myCircle2.zRotation = M_PI_2;
+    myCircle2.zRotation = 0;
     
     myCircle2.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
     myCircle2.physicsBody.categoryBitMask = redCategory;
@@ -250,7 +250,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     myCircle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle3.strokeColor = [SKColor blueColor];
     myCircle3.fillColor = [SKColor blueColor];
-    myCircle3.zRotation = M_PI;
+    myCircle3.zRotation = 3*M_PI;
     
     myCircle3.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
     myCircle3.physicsBody.categoryBitMask = blueCategory;
@@ -262,7 +262,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     myCircle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
     myCircle4.strokeColor = [SKColor yellowColor];
     myCircle4.fillColor = [SKColor yellowColor];
-    myCircle4.zRotation = 3*M_PI_2;
+    myCircle4.zRotation = M_PI;
     
     myCircle4.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
     myCircle4.physicsBody.categoryBitMask = yellowCategory;
