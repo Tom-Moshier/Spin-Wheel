@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E231555E1EA5C4D800E71506 /* Regular.caf in Resources */ = {isa = PBXBuildFile; fileRef = E231555D1EA5C4D800E71506 /* Regular.caf */; };
+		E23155611EA5C57400E71506 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23155601EA5C57400E71506 /* AudioToolbox.framework */; };
 		E2677B551EA43B4900210B7A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2677B541EA43B4900210B7A /* main.m */; };
 		E2677B581EA43B4900210B7A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2677B571EA43B4900210B7A /* AppDelegate.m */; };
 		E2677B5A1EA43B4900210B7A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E2677B591EA43B4900210B7A /* GameScene.sks */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E231555D1EA5C4D800E71506 /* Regular.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Regular.caf; sourceTree = "<group>"; };
+		E23155601EA5C57400E71506 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E2677B501EA43B4900210B7A /* p06-moshier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "p06-moshier.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2677B541EA43B4900210B7A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E2677B561EA43B4900210B7A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -40,17 +44,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E23155611EA5C57400E71506 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E231555F1EA5C57400E71506 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E23155601EA5C57400E71506 /* AudioToolbox.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E2677B471EA43B4900210B7A = {
 			isa = PBXGroup;
 			children = (
 				E2677B521EA43B4900210B7A /* p06-moshier */,
 				E2677B511EA43B4900210B7A /* Products */,
+				E231555F1EA5C57400E71506 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +87,7 @@
 				E2677B5E1EA43B4900210B7A /* GameScene.m */,
 				E2677B601EA43B4900210B7A /* GameViewController.h */,
 				E2677B611EA43B4900210B7A /* GameViewController.m */,
+				E231555D1EA5C4D800E71506 /* Regular.caf */,
 				E2677B631EA43B4900210B7A /* Main.storyboard */,
 				E2677B661EA43B4900210B7A /* Assets.xcassets */,
 				E2677B681EA43B4900210B7A /* LaunchScreen.storyboard */,
@@ -152,6 +167,7 @@
 				E2677B651EA43B4900210B7A /* Main.storyboard in Resources */,
 				E2677B5A1EA43B4900210B7A /* GameScene.sks in Resources */,
 				E2677B671EA43B4900210B7A /* Assets.xcassets in Resources */,
+				E231555E1EA5C4D800E71506 /* Regular.caf in Resources */,
 				E2677B6A1EA43B4900210B7A /* LaunchScreen.storyboard in Resources */,
 				E2677B5C1EA43B4900210B7A /* Actions.sks in Resources */,
 			);

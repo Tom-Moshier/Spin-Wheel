@@ -8,6 +8,7 @@
 
 #import "GameScene.h"
 #import <math.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 @interface GameScene () <SKPhysicsContactDelegate> {
     SKShapeNode *ball;
@@ -395,10 +396,20 @@ static const uint32_t yellowCategory = 0x1 << 5;
             ball.physicsBody.dynamic = YES;
             ball.physicsBody.velocity = CGVectorMake(0, 0);
             [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+            SystemSoundID soundID;
+            NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"Regular" ofType:@"caf"];
+            NSURL *soundUrl = [NSURL fileURLWithPath:soundPath];
+            AudioServicesCreateSystemSoundID ((__bridge CFURLRef)soundUrl, &soundID);
+            AudioServicesPlaySystemSound(soundID);
         }
         else {
             ball.physicsBody.velocity = CGVectorMake(0, 0);
             [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+            SystemSoundID soundID;
+            NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"Regular" ofType:@"caf"];
+            NSURL *soundUrl = [NSURL fileURLWithPath:soundPath];
+            AudioServicesCreateSystemSoundID ((__bridge CFURLRef)soundUrl, &soundID);
+            AudioServicesPlaySystemSound(soundID);
         }
     }
 }
