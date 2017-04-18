@@ -28,13 +28,17 @@
     
     SKLabelNode* scoreLabel;
     SKLabelNode* numberLabel;
+    SKLabelNode* speedLabel;
+    SKLabelNode* speedLabelNum;
+    int speedNum;
     int scoreNumber;
     
-    int speed;
+    double speed;
 }
 
 @end;
 
+//A lot of this is based off of this: https://www.raywenderlich.com/149034/how-to-make-a-game-like-color-switch-with-spritekit-and-swift
 
 
 @implementation GameScene
@@ -69,6 +73,7 @@
     [self addChild:ball];
     
     speed = 20;
+    speedNum = 1;
     
     [self addCircle];
     [self rotateCircle:speed];
@@ -88,10 +93,26 @@
     numberLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     numberLabel.fontSize = 70;
     numberLabel.fontColor = [SKColor whiteColor];
-    numberLabel.position = CGPointMake(self.frame.size.width/2 - 250, 0);
-    numberLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    numberLabel.position = CGPointMake(self.frame.size.width/2 - 20, 0);
+    numberLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
     numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
     [self addChild:numberLabel];
+    
+    speedLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    speedLabel.fontSize = 70;
+    speedLabel.fontColor = [SKColor whiteColor];
+    speedLabel.position = CGPointMake(-self.frame.size.width/2 + 20, -150);
+    speedLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    speedLabel.text = @"Speed:";
+    [self addChild:speedLabel];
+    
+    speedLabelNum = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    speedLabelNum.fontSize = 70;
+    speedLabelNum.fontColor = [SKColor whiteColor];
+    speedLabelNum.position = CGPointMake(self.frame.size.width/2 - 20, -150);
+    speedLabelNum.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
+    speedLabelNum.text = [NSString stringWithFormat:@"%d", speedNum];
+    [self addChild:speedLabelNum];
     
 }
 
@@ -138,15 +159,30 @@
     }
     [self changeSpeed];
     [self colorBall];
-    scoreNumber += 1;
+    scoreNumber += 1*speedNum+1;
     numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
 }
 
 - (void) changeSpeed {
     if (speed > 12) {
-        speed -=0.05;
+        speed -=0.2;
+        [myRectangle1 removeFromParent];
+        [myRectangle2 removeFromParent];
+        [myRectangle3 removeFromParent];
+        [myRectangle4 removeFromParent];
+        [myCircle1 removeFromParent];
+        [myCircle2 removeFromParent];
+        [myCircle3 removeFromParent];
+        [myCircle4 removeFromParent];
+        [self addCircle];
+        [self rotateCircle:speed];
+        [self addRectangle];
+        [self rotateRectangle:speed];
+        
         [self rotateCircle:speed];
         [self rotateRectangle:speed];
+        speedNum += 1;
+        speedLabelNum.text = [NSString stringWithFormat:@"%d", speedNum];
     }
 }
 
@@ -203,40 +239,36 @@
 }
 
 - (void)addRectangle {
-    CGSize size;
-    size.height = 40;
-    size.width = 400;
-    CGPoint origin;
-    origin.x = -200;
-    origin.y = -200;
-    CGRect rect;
-    rect.origin = origin;
-    rect.size = size;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:CGPointMake(0,-200)];
+    [path addLineToPoint:CGPointMake(0, -160)];
+    [path addArcWithCenter:CGPointZero radius:160 startAngle:3.0 * M_PI_2 endAngle:0 clockwise:YES];
+    [path addLineToPoint:CGPointMake(200, 0)];
+    [path addArcWithCenter:CGPointZero radius:200 startAngle:0 endAngle:3.0* M_PI_2 clockwise:NO];
     
-    UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
     myRectangle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle1.strokeColor = [SKColor greenColor];
-    myRectangle1.fillColor = [SKColor greenColor];
+    myRectangle1.strokeColor = [SKColor redColor];
+    myRectangle1.fillColor = [SKColor redColor];
     myRectangle1.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle1];
     
     myRectangle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle2.strokeColor = [SKColor redColor];
-    myRectangle2.fillColor = [SKColor redColor];
+    myRectangle2.strokeColor = [SKColor greenColor];
+    myRectangle2.fillColor = [SKColor greenColor];
     myRectangle2.zRotation = M_PI_2;
     myRectangle2.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle2];
     
     myRectangle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle3.strokeColor = [SKColor blueColor];
-    myRectangle3.fillColor = [SKColor blueColor];
+    myRectangle3.strokeColor = [SKColor yellowColor];
+    myRectangle3.fillColor = [SKColor yellowColor];
     myRectangle3.zRotation = M_PI;
     myRectangle3.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle3];
     
     myRectangle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myRectangle4.strokeColor = [SKColor yellowColor];
-    myRectangle4.fillColor = [SKColor yellowColor];
+    myRectangle4.strokeColor = [SKColor blueColor];
+    myRectangle4.fillColor = [SKColor blueColor];
     myRectangle4.zRotation = 3*M_PI_2;
     myRectangle4.position = CGPointMake(0, self.frame.size.height/2 -250);
     [self addChild:myRectangle4];
