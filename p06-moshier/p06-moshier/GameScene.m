@@ -50,7 +50,7 @@
     
     double speed;
     bool gameOver;
-    
+    bool changeSpin;
     int changeSpeedNum;
 }
 
@@ -73,7 +73,25 @@ static const uint32_t yellowCategory = 0x1 << 5;
 
 -(void) startScene {
     gameOver = true;
+    changeSpin = true;
     [self createStartLabels];
+    //https://makeapppie.com/2014/04/01/slippyflippy-1-1-adding-a-fading-in-and-out-label-with-background-in-spritekit/
+    //found code here for fading in an out, then made it ran forever
+    SKAction *flashAction = [SKAction sequence:@[
+                                                 [SKAction fadeInWithDuration:1],
+                                                 [SKAction waitForDuration:0],
+                                                 [SKAction fadeOutWithDuration:1]
+                                                 ]];
+    SKAction *repeat = [SKAction repeatActionForever:flashAction];
+    [instruct5 runAction:repeat];
+    SKAction *spinMyWheel = [SKAction sequence:@[
+        [SKAction runBlock:^{ [self moveSpin:1]; }], [SKAction waitForDuration:2],
+        [SKAction runBlock:^{ [self moveSpin:2]; }], [SKAction waitForDuration:2],
+        [SKAction runBlock:^{ [self moveSpin:3]; }], [SKAction waitForDuration:2],
+        [SKAction runBlock:^{ [self moveSpin:4]; }], [SKAction waitForDuration:2],
+        ]];
+    SKAction *repeatSpin = [SKAction repeatActionForever:spinMyWheel];
+    [self runAction:repeatSpin];
 }
 
 -(void) createStartLabels {
@@ -92,6 +110,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     PLetter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
     PLetter.text = @"P";
     [self addChild:PLetter];
+    PLetter.physicsBody.allowsRotation = NO;
     
     ILetter = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     ILetter.fontSize = 150;
@@ -156,20 +175,39 @@ static const uint32_t yellowCategory = 0x1 << 5;
     instruct5.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     [instruct5 setText:@"Tap to start"];
     [self addChild:instruct5];
-    
-    SKAction *flashAction = [SKAction sequence:@[
-                                                 [SKAction fadeInWithDuration:1],
-                                                 [SKAction waitForDuration:0],
-                                                 [SKAction fadeOutWithDuration:1]
-                                                 ]];
-    SKAction *repeat = [SKAction repeatActionForever:flashAction];
-    [instruct5 runAction:repeat];
+}
+
+-(void) moveSpin:(int)num {
+    if(num == 1) {
+        SLetter.position = CGPointMake(-self.frame.size.width/2 + 20, self.frame.size.height/2 -300);
+        PLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -150);
+        ILetter.position = CGPointMake(-self.frame.size.width/2 + 220, self.frame.size.height/2 -300);
+        NLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -450);
+    }
+    else if(num == 2) {
+        SLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -150);
+        PLetter.position = CGPointMake(-self.frame.size.width/2 + 220, self.frame.size.height/2 -300);
+        ILetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -450);
+        NLetter.position = CGPointMake(-self.frame.size.width/2 + 20, self.frame.size.height/2 -300);
+    }
+    else if(num == 3) {
+        SLetter.position = CGPointMake(-self.frame.size.width/2 + 220, self.frame.size.height/2 -300);
+        PLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -450);
+        ILetter.position = CGPointMake(-self.frame.size.width/2 + 20, self.frame.size.height/2 -300);
+        NLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -150);
+    }
+    else {
+        SLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -450);
+        PLetter.position = CGPointMake(-self.frame.size.width/2 + 20, self.frame.size.height/2 -300);
+        ILetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -150);
+        NLetter.position = CGPointMake(-self.frame.size.width/2 + 220, self.frame.size.height/2 -300);
+    }
 }
 
 
 - (void)setUp {
     gameOver = false;
-    
+    changeSpin = false;
     //creating gravity
     self.physicsWorld.gravity = CGVectorMake(0.0f, -10.0f);
     self.physicsWorld.contactDelegate = self;
@@ -296,7 +334,6 @@ static const uint32_t yellowCategory = 0x1 << 5;
     myTriangle.fillColor = [SKColor whiteColor];
     myTriangle.position = CGPointMake(-34, self.frame.size.height/2 -250);
     [self addChild:myTriangle];
-    
 }
 
 //changes the position from one ring to the other, then goes and changes the speed of the rings
