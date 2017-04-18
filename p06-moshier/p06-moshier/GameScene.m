@@ -9,8 +9,6 @@
 #import "GameScene.h"
 #import <math.h>
 
-
-
 @interface GameScene () <SKPhysicsContactDelegate> {
     SKShapeNode *ball;
     
@@ -30,6 +28,9 @@
     SKLabelNode* numberLabel;
     SKLabelNode* speedLabel;
     SKLabelNode* speedLabelNum;
+    SKLabelNode *gameOverLabel;
+    SKLabelNode *finalScore;
+    SKLabelNode *startNode;
     
     SKNode* holder1;
     SKNode* holder2;
@@ -38,6 +39,7 @@
     int scoreNumber;
     
     double speed;
+    bool gameOver;
 }
 
 @end;
@@ -57,6 +59,10 @@ static const uint32_t yellowCategory = 0x1 << 5;
 }
 
 - (void)setUp {
+    [startNode removeFromParent];
+    [gameOverLabel removeFromParent];
+    [finalScore removeFromParent];
+    
     self.backgroundColor = [SKColor blackColor];
     
     //Most of the physics / ball creation code is from my last project
@@ -65,6 +71,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     self.physicsWorld.gravity = CGVectorMake(0.0f, -10.0f);
     self.physicsWorld.contactDelegate = self;
     
+    gameOver = false;
     //Drawing the ball was found from here: http://stackoverflow.com/questions/24078687/draw-smooth-circle-in-ios-sprite-kit
     CGRect circle = CGRectMake(20.0, 20.0, 40.0, 40.0);
     ball = [[SKShapeNode alloc] init];
@@ -103,7 +110,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     scoreLabel.fontSize = 70;
     scoreLabel.fontColor = [SKColor whiteColor];
-    scoreLabel.position = CGPointMake(-self.frame.size.width/2 + 20, 0);
+    scoreLabel.position = CGPointMake(-self.frame.size.width/2 + 20, 150);
     scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
     scoreLabel.text = @"Score:";
     [self addChild:scoreLabel];
@@ -112,7 +119,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     numberLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     numberLabel.fontSize = 70;
     numberLabel.fontColor = [SKColor whiteColor];
-    numberLabel.position = CGPointMake(self.frame.size.width/2 - 20, 0);
+    numberLabel.position = CGPointMake(self.frame.size.width/2 - 20, 150);
     numberLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
     numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
     [self addChild:numberLabel];
@@ -207,7 +214,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
 - (void)addCircle {
     // a lot of code has been translated from swift to objective c
     // following this tutorial: https://www.raywenderlich.com/149034/how-to-make-a-game-like-color-switch-with-spritekit-and-swift
-    //a lot of it is my own however and doesn't seem to work as intended
+    //a lot of it is my own however, including the bitmasking
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(0,-200)];
     [path addLineToPoint:CGPointMake(0, -160)];
@@ -354,19 +361,45 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [speedLabel removeFromParent];
     [speedLabelNum removeFromParent];
     
-    [self setUp];
+    gameOver = true;
+    gameOverLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    gameOverLabel.fontSize = 70;
+    gameOverLabel.fontColor = [SKColor whiteColor];
+    gameOverLabel.position = CGPointMake(0.0f, 250.0f);;
+    gameOverLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [gameOverLabel setText:@"Game Over"];
+    finalScore = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    finalScore.fontSize = 70;
+    finalScore.fontColor = [SKColor whiteColor];
+    finalScore.position = CGPointMake(0.0f, 0.0f);;
+    finalScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [finalScore setText:[NSString stringWithFormat:@"Final Score: %d", scoreNumber]];
+    [self addChild:finalScore];
+    [self addChild:gameOverLabel];
+    startNode = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    startNode.fontSize = 55;
+    startNode.fontColor = [SKColor whiteColor];
+    startNode.position = CGPointMake(0.0f, -250.0f);;
+    startNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [startNode setText:@"Tap to Start the Game"];
+    [self addChild:startNode];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //Impluse code was found here: https://digitalbreed.com/2014/02/10/how-to-build-a-game-like-flappy-bird-with-xcode-and-sprite-kit/
-    if(ball.physicsBody.dynamic == NO) {
-        ball.physicsBody.dynamic = YES;
-        ball.physicsBody.velocity = CGVectorMake(0, 0);
-        [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+    if(gameOver) {
+        [self setUp];
     }
     else {
-        ball.physicsBody.velocity = CGVectorMake(0, 0);
-        [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+        if(ball.physicsBody.dynamic == NO) {
+            ball.physicsBody.dynamic = YES;
+            ball.physicsBody.velocity = CGVectorMake(0, 0);
+            [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+        }
+        else {
+            ball.physicsBody.velocity = CGVectorMake(0, 0);
+            [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+        }
     }
 }
 

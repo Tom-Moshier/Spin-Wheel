@@ -289,6 +289,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CDHF98YNN5;
 				INFOPLIST_FILE = "p06-moshier/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tommoshier.p06-moshier";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -301,6 +302,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = CDHF98YNN5;
 				INFOPLIST_FILE = "p06-moshier/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "tommoshier.p06-moshier";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -326,6 +328,7 @@
 				E2677B701EA43B4900210B7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
