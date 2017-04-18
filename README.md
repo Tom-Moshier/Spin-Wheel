@@ -1,4 +1,6 @@
 # P06-Moshier #
+tmoshie1
+B00509406
 
 A game similar to color rush.
 
