@@ -3,27 +3,28 @@
 //  p06-moshier
 //
 //  Created by Tom Moshier on 4/16/17.
-//  Copyright © 2017 Tom Moshier. All rights reserved.
+//  Copyright Â© 2017 Tom Moshier. All rights reserved.
 //
 
 #import "GameScene.h"
 #import <math.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+
+
 @interface GameScene () <SKPhysicsContactDelegate> {
-    SKShapeNode *ball;
-    
     SKShapeNode *myCircle1;
     SKShapeNode *myCircle2;
     SKShapeNode *myCircle3;
     SKShapeNode *myCircle4;
     
-    SKShapeNode *myCircle5;
-    SKShapeNode *myCircle6;
-    SKShapeNode *myCircle7;
-    SKShapeNode *myCircle8;
+    SKShapeNode *myRectangle1;
+    SKShapeNode *myRectangle2;
+    SKShapeNode *myRectangle3;
+    SKShapeNode *myRectangle4;
     
     SKShapeNode *myTriangle;
+
     
     SKLabelNode* scoreLabel;
     SKLabelNode* numberLabel;
@@ -36,11 +37,16 @@
     SKNode* holder1;
     SKNode* holder2;
     
+    SKSpriteNode *aCircle;
+    SKShapeNode *circleShape;
+    
     int speedNum;
     int scoreNumber;
     
     double speed;
     bool gameOver;
+    
+    int changeSpeedNum;
 }
 
 @end;
@@ -56,6 +62,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
 @implementation GameScene
 
 - (void)didMoveToView:(SKView *)view {
+    self.backgroundColor = [SKColor blackColor];
     [self setUp];
 }
 
@@ -63,55 +70,61 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [startNode removeFromParent];
     [gameOverLabel removeFromParent];
     [finalScore removeFromParent];
-    
-    self.backgroundColor = [SKColor blackColor];
-    
-    //Most of the physics / ball creation code is from my last project
+    gameOver = false;
     
     //creating gravity
     self.physicsWorld.gravity = CGVectorMake(0.0f, -10.0f);
     self.physicsWorld.contactDelegate = self;
+
+    //The issue previously was my ball was not working correctly.
+    // I found a solution here: Basically you stick the ball inside of a SKSpriteNode thats invisible and it solves the issue
+    //This occurs because the skphysics body starts at a different point than the skshapenode, thus the workaround is to store it in one bigger object
+    //So This is a late as a result, but the game now works as intended and thus is for the better
     
-    gameOver = false;
-    //Drawing the ball was found from here: http://stackoverflow.com/questions/24078687/draw-smooth-circle-in-ios-sprite-kit
-    CGRect circle = CGRectMake(20.0, 20.0, 40.0, 40.0);
-    ball = [[SKShapeNode alloc] init];
-    ball.path = [UIBezierPath bezierPathWithOvalInRect:circle].CGPath;
-    ball.position = CGPointMake(CGRectGetMidX(self.frame)-34, CGRectGetMidY(self.frame));
-    ball.lineWidth = 0;
-    
-    //physics for the ball
-    ball.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:ball.frame.size.width/2];
-    ball.physicsBody.dynamic = NO;
-    ball.physicsBody.allowsRotation = NO;
-    ball.physicsBody.collisionBitMask = 0;
+    //Source: http://www.kubilayerdogan.net/aligning-skphysicsbody-correctly-with-skshapenode/
+
+    float radius = 20.0;
+    aCircle = [SKSpriteNode spriteNodeWithColor:[UIColor clearColor] size:CGSizeMake(radius * 2, radius * 2)];
+    SKPhysicsBody *circleBody = [SKPhysicsBody bodyWithCircleOfRadius:radius];
+    [circleBody setDynamic:NO];
+    [circleBody setUsesPreciseCollisionDetection:YES];
+    aCircle.physicsBody = circleBody;
+    aCircle.physicsBody.collisionBitMask = 0;
+    CGPathRef bodyPath = CGPathCreateWithEllipseInRect(CGRectMake(-[aCircle size].width / 2, -[aCircle size].height / 2, [aCircle size].width, [aCircle size].width), nil);
+    circleShape = [SKShapeNode node];
+    [circleShape setFillColor:[UIColor redColor]];
+    [circleShape setLineWidth:0];
+    [circleShape setPath:bodyPath];
+    [aCircle addChild:circleShape];
+    CGPathRelease(bodyPath);
     
     [self colorBall];
     
-    speed = 20;
+    [self addChild:aCircle];
+    speed = 11;
     speedNum = 1;
+    changeSpeedNum = 0;
     
     holder1 = [SKNode node];
     holder1.position = CGPointMake(0, -self.frame.size.height/2 +250);
     holder2 = [SKNode node];
     holder2.position = CGPointMake(0, self.frame.size.height/2 -250);
-
+    
     [self addCircle];
     [self rotateCircle:speed];
-    [self addCircle2];
-    [self rotateCircle2:speed];
+    [self addRectangle];
+    [self rotateRectangle:speed];
     [self addTriangle];
     [self addChild:holder1];
     [self addChild:holder2];
     [self createLabels];
-    [self addChild:ball];
 }
 
 -(void) createLabels {
     scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     scoreLabel.fontSize = 70;
     scoreLabel.fontColor = [SKColor whiteColor];
-    scoreLabel.position = CGPointMake(-self.frame.size.width/2 + 20, 150);
+    scoreLabel.position = CGPointMake(-self.frame.size.width/2 + 20, 0);
     scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
     scoreLabel.text = @"Score:";
     [self addChild:scoreLabel];
@@ -120,7 +133,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     numberLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     numberLabel.fontSize = 70;
     numberLabel.fontColor = [SKColor whiteColor];
-    numberLabel.position = CGPointMake(self.frame.size.width/2 - 20, 150);
+    numberLabel.position = CGPointMake(self.frame.size.width/2 - 20, 0);
     numberLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
     numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
     [self addChild:numberLabel];
@@ -147,20 +160,24 @@ static const uint32_t yellowCategory = 0x1 << 5;
     num = [self getRandomNumberBetween:1 to:4];
     NSLog(@"%d",num);
     if(num == 1) {
-        ball.fillColor = [SKColor blueColor];
-        ball.physicsBody.categoryBitMask = blueCategory;
+        circleShape.fillColor = [SKColor blueColor];
+        circleShape.physicsBody.categoryBitMask = blueCategory;
+        aCircle.physicsBody.categoryBitMask = blueCategory;
     }
     else if(num == 2) {
-        ball.fillColor = [SKColor yellowColor];
-        ball.physicsBody.categoryBitMask = yellowCategory;
+        circleShape.fillColor = [SKColor yellowColor];
+        circleShape.physicsBody.categoryBitMask = yellowCategory;
+        aCircle.physicsBody.categoryBitMask = yellowCategory;
     }
     else if(num == 3) {
-        ball.fillColor = [SKColor redColor];
-        ball.physicsBody.categoryBitMask = redCategory;
+        circleShape.fillColor = [SKColor redColor];
+        circleShape.physicsBody.categoryBitMask = redCategory;
+        aCircle.physicsBody.categoryBitMask = redCategory;
     }
     else {
-        ball.fillColor = [SKColor greenColor];
-        ball.physicsBody.categoryBitMask = greenCategory;
+        circleShape.fillColor = [SKColor greenColor];
+        circleShape.physicsBody.categoryBitMask = greenCategory;
+        aCircle.physicsBody.categoryBitMask = greenCategory;
     }
 }
 
@@ -201,21 +218,28 @@ static const uint32_t yellowCategory = 0x1 << 5;
 
 - (void) changeSpeed {
     if (speed > 1) {
-        speed -=1;
-        [holder1 removeActionForKey:@"rotation"];
-        [holder2 removeActionForKey:@"rotation"];
-        [self rotateCircle:speed];
-        [self rotateCircle2:speed];
-        speedNum += 1;
-        NSLog(@"Speed: %f",speed);
-        speedLabelNum.text = [NSString stringWithFormat:@"%d", speedNum];
+        if(changeSpeedNum == 0) {
+            speed -=1;
+            [holder1 removeActionForKey:@"rotation"];
+            [self rotateCircle:speed];
+            speedNum += 1;
+            NSLog(@"Speed: %f",speed);
+            speedLabelNum.text = [NSString stringWithFormat:@"%d", speedNum];
+            changeSpeedNum = 1;
+        }
+        else {
+            [holder2 removeActionForKey:@"rotation"];
+            [self rotateRectangle:speed];
+            NSLog(@"Speed: %f",speed);
+            changeSpeedNum = 0;
+        }
     }
 }
 
 - (void)addCircle {
     // a lot of code has been translated from swift to objective c
     // following this tutorial: https://www.raywenderlich.com/149034/how-to-make-a-game-like-color-switch-with-spritekit-and-swift
-    //a lot of it is my own however, including the bitmasking
+    //a lot of it is my own however and doesn't seem to work as intended
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(0,-200)];
     [path addLineToPoint:CGPointMake(0, -160)];
@@ -280,80 +304,85 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [holder1 runAction:repeat withKey:@"rotation"];
 }
 
-- (void)addCircle2 {
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(0,-200)];
-    [path addLineToPoint:CGPointMake(0, -160)];
-    [path addArcWithCenter:CGPointZero radius:160 startAngle:3.0 * M_PI_2 endAngle:0 clockwise:YES];
-    [path addLineToPoint:CGPointMake(200, 0)];
-    [path addArcWithCenter:CGPointZero radius:200 startAngle:0 endAngle:3.0* M_PI_2 clockwise:NO];
+- (void)addRectangle {
+    CGSize size;
+    size.height = 40;
+    size.width = 400;
+    CGPoint origin;
+    origin.x = -200;
+    origin.y = -200;
+    CGRect rect;
+    rect.origin = origin;
+    rect.size = size;
     
-    myCircle5 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myCircle5.strokeColor = [SKColor greenColor];
-    myCircle5.fillColor = [SKColor greenColor];
-    myCircle5.zRotation = 0;
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
     
-    myCircle5.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle5.physicsBody.categoryBitMask = greenCategory;
-    myCircle5.physicsBody.collisionBitMask = 0;
-    myCircle5.physicsBody.contactTestBitMask = blueCategory | yellowCategory | redCategory;
-    myCircle5.physicsBody.affectedByGravity = false;
-    [holder2 addChild:myCircle5];
+    myRectangle1 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle1.strokeColor = [SKColor greenColor];
+    myRectangle1.fillColor = [SKColor greenColor];
+    myRectangle1.zRotation = 0;
     
-    myCircle6 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myCircle6.strokeColor = [SKColor redColor];
-    myCircle6.fillColor = [SKColor redColor];
-    myCircle6.zRotation = M_PI_2;
+    myRectangle1.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myRectangle1.physicsBody.categoryBitMask = greenCategory;
+    myRectangle1.physicsBody.collisionBitMask = 0;
+    myRectangle1.physicsBody.contactTestBitMask = blueCategory | yellowCategory | redCategory;
+    myRectangle1.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myRectangle1];
     
-    myCircle6.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle6.physicsBody.categoryBitMask = redCategory;
-    myCircle6.physicsBody.collisionBitMask = 0;
-    myCircle6.physicsBody.contactTestBitMask = blueCategory | yellowCategory | greenCategory;
-    myCircle6.physicsBody.affectedByGravity = false;
-    [holder2 addChild:myCircle6];
+    myRectangle2 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle2.strokeColor = [SKColor redColor];
+    myRectangle2.fillColor = [SKColor redColor];
+    myRectangle2.zRotation = M_PI_2;
     
-    myCircle7 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myCircle7.strokeColor = [SKColor blueColor];
-    myCircle7.fillColor = [SKColor blueColor];
-    myCircle7.zRotation = M_PI;
+    myRectangle2.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myRectangle2.physicsBody.categoryBitMask = redCategory;
+    myRectangle2.physicsBody.collisionBitMask = 0;
+    myRectangle2.physicsBody.contactTestBitMask = blueCategory | yellowCategory | greenCategory;
+    myRectangle2.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myRectangle2];
     
-    myCircle7.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle7.physicsBody.categoryBitMask = blueCategory;
-    myCircle7.physicsBody.collisionBitMask = 0;
-    myCircle7.physicsBody.contactTestBitMask = greenCategory | yellowCategory | redCategory;
-    myCircle7.physicsBody.affectedByGravity = false;
-    [holder2 addChild:myCircle7];
+    myRectangle3 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle3.strokeColor = [SKColor blueColor];
+    myRectangle3.fillColor = [SKColor blueColor];
+    myRectangle3.zRotation = M_PI;
     
-    myCircle8 = [SKShapeNode shapeNodeWithPath:path.CGPath];
-    myCircle8.strokeColor = [SKColor yellowColor];
-    myCircle8.fillColor = [SKColor yellowColor];
-    myCircle8.zRotation = 3*M_PI_2;
+    myRectangle3.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myRectangle3.physicsBody.categoryBitMask = blueCategory;
+    myRectangle3.physicsBody.collisionBitMask = 0;
+    myRectangle3.physicsBody.contactTestBitMask = greenCategory | yellowCategory | redCategory;
+    myRectangle3.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myRectangle3];
     
-    myCircle8.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
-    myCircle8.physicsBody.categoryBitMask = yellowCategory;
-    myCircle8.physicsBody.collisionBitMask = 0;
-    myCircle8.physicsBody.contactTestBitMask = blueCategory | greenCategory | redCategory;
-    myCircle8.physicsBody.affectedByGravity = false;
-    [holder2 addChild:myCircle8];
+    myRectangle4 = [SKShapeNode shapeNodeWithPath:path.CGPath];
+    myRectangle4.strokeColor = [SKColor yellowColor];
+    myRectangle4.fillColor = [SKColor yellowColor];
+    myRectangle4.zRotation = 3*M_PI_2;
+    
+    myRectangle4.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:(path.CGPath)];
+    myRectangle4.physicsBody.categoryBitMask = yellowCategory;
+    myRectangle4.physicsBody.collisionBitMask = 0;
+    myRectangle4.physicsBody.contactTestBitMask = blueCategory | greenCategory | redCategory;
+    myRectangle4.physicsBody.affectedByGravity = false;
+    [holder2 addChild:myRectangle4];
 }
 
-- (void)rotateCircle2:(int)number {
+- (void)rotateRectangle:(int)number {
     SKAction *rotation = [SKAction rotateByAngle:2*M_PI duration:number];
     SKAction *repeat = [SKAction repeatActionForever:rotation];
     [holder2 runAction:repeat withKey:@"rotation"];
 }
 
 -(void) gameOver {
-    [ball removeFromParent];
+    [aCircle removeFromParent];
     [myCircle1 removeFromParent];
     [myCircle2 removeFromParent];
     [myCircle3 removeFromParent];
     [myCircle4 removeFromParent];
     
-    [myCircle5 removeFromParent];
-    [myCircle6 removeFromParent];
-    [myCircle7 removeFromParent];
-    [myCircle8 removeFromParent];
+    [myRectangle1 removeFromParent];
+    [myRectangle2 removeFromParent];
+    [myRectangle3 removeFromParent];
+    [myRectangle4 removeFromParent];
     
     [myTriangle removeFromParent];
     
@@ -392,10 +421,10 @@ static const uint32_t yellowCategory = 0x1 << 5;
         [self setUp];
     }
     else {
-        if(ball.physicsBody.dynamic == NO) {
-            ball.physicsBody.dynamic = YES;
-            ball.physicsBody.velocity = CGVectorMake(0, 0);
-            [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+        if(aCircle.physicsBody.dynamic == NO) {
+            aCircle.physicsBody.dynamic = YES;
+            aCircle.physicsBody.velocity = CGVectorMake(0, 0);
+            [aCircle.physicsBody applyImpulse:CGVectorMake(0, 25)];
             SystemSoundID soundID;
             NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"Regular" ofType:@"caf"];
             NSURL *soundUrl = [NSURL fileURLWithPath:soundPath];
@@ -403,8 +432,8 @@ static const uint32_t yellowCategory = 0x1 << 5;
             AudioServicesPlaySystemSound(soundID);
         }
         else {
-            ball.physicsBody.velocity = CGVectorMake(0, 0);
-            [ball.physicsBody applyImpulse:CGVectorMake(0, 25)];
+            aCircle.physicsBody.velocity = CGVectorMake(0, 0);
+            [aCircle.physicsBody applyImpulse:CGVectorMake(0, 25)];
             SystemSoundID soundID;
             NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"Regular" ofType:@"caf"];
             NSURL *soundUrl = [NSURL fileURLWithPath:soundPath];
@@ -416,20 +445,21 @@ static const uint32_t yellowCategory = 0x1 << 5;
 
 -(void)update:(CFTimeInterval)currentTime {
     //Checks to see if the balls gotten the triangle
-    if(ball.position.y >= myTriangle.position.y-40 && myTriangle.position.y == self.frame.size.height/2 -250) {
+    if(aCircle.position.y >= myTriangle.position.y-40 && myTriangle.position.y == self.frame.size.height/2 -250) {
         [self changeTriangle];
     }
-    else if (ball.position.y <= myTriangle.position.y+40 && myTriangle.position.y == -self.frame.size.height/2 +230) {
+    else if (aCircle.position.y <= myTriangle.position.y+40 && myTriangle.position.y == -self.frame.size.height/2 +230) {
         [self changeTriangle];
     }
     //Checks to see if the balls gone out of bounds
-    if(ball.position.y < -self.frame.size.height/2 || ball.position.y > self.frame.size.height/2) {
+    if(aCircle.position.y < -self.frame.size.height/2 || aCircle.position.y > self.frame.size.height/2) {
         [self gameOver];
     }
 }
 
 -(void)didBeginContact:(SKPhysicsContact*)contact {
     // 1 Create local variables for two physics bodies
+    NSLog(@"HERE");
     SKPhysicsBody* firstBody;
     SKPhysicsBody* secondBody;
     // 2 Assign the two physics bodies so that the one with the lower category is always stored in firstBody
@@ -440,7 +470,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
         firstBody = contact.bodyB;
         secondBody = contact.bodyA;
     }
-    if (firstBody.categoryBitMask != secondBody.categoryBitMask && ball.physicsBody.dynamic == YES) {
+    if (firstBody.categoryBitMask != secondBody.categoryBitMask && aCircle.physicsBody.dynamic == YES) {
         [self gameOver];
     }
 }
