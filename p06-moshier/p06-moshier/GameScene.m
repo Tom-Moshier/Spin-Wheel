@@ -10,8 +10,6 @@
 #import <math.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-
-
 @interface GameScene () <SKPhysicsContactDelegate> {
     SKShapeNode *myCircle1;
     SKShapeNode *myCircle2;
@@ -25,14 +23,21 @@
     
     SKShapeNode *myTriangle;
 
-    
     SKLabelNode* scoreLabel;
     SKLabelNode* numberLabel;
     SKLabelNode* speedLabel;
     SKLabelNode* speedLabelNum;
-    SKLabelNode *gameOverLabel;
-    SKLabelNode *finalScore;
-    SKLabelNode *startNode;
+    
+    SKLabelNode* SLetter;
+    SKLabelNode* PLetter;
+    SKLabelNode* ILetter;
+    SKLabelNode* NLetter;
+    SKLabelNode* Wheel;
+    SKLabelNode* instruct1;
+    SKLabelNode* instruct2;
+    SKLabelNode* instruct3;
+    SKLabelNode* instruct4;
+    SKLabelNode* instruct5;
     
     SKNode* holder1;
     SKNode* holder2;
@@ -63,13 +68,106 @@ static const uint32_t yellowCategory = 0x1 << 5;
 
 - (void)didMoveToView:(SKView *)view {
     self.backgroundColor = [SKColor blackColor];
-    [self setUp];
+    [self startScene];
 }
 
+-(void) startScene {
+    gameOver = true;
+    [self createStartLabels];
+}
+
+-(void) createStartLabels {
+    SLetter = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    SLetter.fontSize = 150;
+    SLetter.fontColor = [SKColor redColor];
+    SLetter.position = CGPointMake(-self.frame.size.width/2 + 20, self.frame.size.height/2 -300);
+    SLetter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    SLetter.text = @"S";
+    [self addChild:SLetter];
+    
+    PLetter = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    PLetter.fontSize = 150;
+    PLetter.fontColor = [SKColor yellowColor];
+    PLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -150);
+    PLetter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    PLetter.text = @"P";
+    [self addChild:PLetter];
+    
+    ILetter = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    ILetter.fontSize = 150;
+    ILetter.fontColor = [SKColor greenColor];
+    ILetter.position = CGPointMake(-self.frame.size.width/2 + 220, self.frame.size.height/2 -300);
+    ILetter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    ILetter.text = @"I";
+    [self addChild:ILetter];
+
+    NLetter = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    NLetter.fontSize = 150;
+    NLetter.fontColor = [SKColor blueColor];
+    NLetter.position = CGPointMake(-self.frame.size.width/2 + 120, self.frame.size.height/2 -450);
+    NLetter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+    NLetter.text = @"N";
+    [self addChild:NLetter];
+    
+    Wheel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    Wheel.fontSize = 120;
+    Wheel.fontColor = [SKColor whiteColor];
+    Wheel.position = CGPointMake(self.frame.size.width/2 - 20, self.frame.size.height/2 -300);
+    Wheel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
+    Wheel.text = @"Wheel";
+    [self addChild:Wheel];
+    
+    instruct1 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    instruct1.fontSize = 70;
+    instruct1.fontColor = [SKColor whiteColor];
+    instruct1.position = CGPointMake(0.0,-200.0);
+    instruct1.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [instruct1 setText:@"Instructions:"];
+    [self addChild:instruct1];
+    
+    instruct2 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    instruct2.fontSize = 35;
+    instruct2.fontColor = [SKColor whiteColor];
+    instruct2.position = CGPointMake(0.0, -300);
+    instruct2.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [instruct2 setText:@"Tap to move the ball up"];
+    [self addChild:instruct2];
+    
+    instruct3 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    instruct3.fontSize = 35;
+    instruct3.fontColor = [SKColor whiteColor];
+    instruct3.position = CGPointMake(0, -400);
+    instruct3.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [instruct3 setText:@"Grab the triangle to score points"];
+    [self addChild:instruct3];
+    
+    instruct4 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    instruct4.fontSize = 35;
+    instruct4.fontColor = [SKColor whiteColor];
+    instruct4.position = CGPointMake(0, -500);
+    instruct4.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [instruct4 setText:@"Only touch the same color!"];
+    [self addChild:instruct4];
+    
+    instruct5 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    instruct5.fontSize = 70;
+    instruct5.fontColor = [SKColor whiteColor];
+    instruct5.position = CGPointMake(0, 0);
+    instruct5.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
+    [instruct5 setText:@"Tap to start"];
+    [self addChild:instruct5];
+    
+    SKAction *flashAction = [SKAction sequence:@[
+                                                 [SKAction fadeInWithDuration:1],
+                                                 [SKAction waitForDuration:0],
+                                                 [SKAction fadeOutWithDuration:1]
+                                                 ]];
+    SKAction *repeat = [SKAction repeatActionForever:flashAction];
+    [instruct5 runAction:repeat];
+}
+
+
 - (void)setUp {
-    [startNode removeFromParent];
-    [gameOverLabel removeFromParent];
-    [finalScore removeFromParent];
     gameOver = false;
     
     //creating gravity
@@ -97,10 +195,9 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [circleShape setPath:bodyPath];
     [aCircle addChild:circleShape];
     CGPathRelease(bodyPath);
-    
     [self colorBall];
-    
     [self addChild:aCircle];
+    
     speed = 11;
     speedNum = 1;
     changeSpeedNum = 0;
@@ -124,7 +221,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     scoreLabel.fontSize = 70;
     scoreLabel.fontColor = [SKColor whiteColor];
-    scoreLabel.position = CGPointMake(-self.frame.size.width/2 + 20, 0);
+    scoreLabel.position = CGPointMake(-self.frame.size.width/2 + 20, 150);
     scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
     scoreLabel.text = @"Score:";
     [self addChild:scoreLabel];
@@ -133,7 +230,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     numberLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     numberLabel.fontSize = 70;
     numberLabel.fontColor = [SKColor whiteColor];
-    numberLabel.position = CGPointMake(self.frame.size.width/2 - 20, 0);
+    numberLabel.position = CGPointMake(self.frame.size.width/2 - 20, 150);
     numberLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
     numberLabel.text = [NSString stringWithFormat:@"%d", scoreNumber];
     [self addChild:numberLabel];
@@ -391,6 +488,9 @@ static const uint32_t yellowCategory = 0x1 << 5;
     [speedLabel removeFromParent];
     [speedLabelNum removeFromParent];
     
+    SKLabelNode* gameOverLabel;
+    SKLabelNode* finalScore;
+    SKLabelNode* startNode;
     gameOver = true;
     gameOverLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     gameOverLabel.fontSize = 70;
@@ -401,7 +501,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
     finalScore = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     finalScore.fontSize = 70;
     finalScore.fontColor = [SKColor whiteColor];
-    finalScore.position = CGPointMake(0.0f, 0.0f);;
+    finalScore.position = CGPointMake(0.0f, 0.0f);
     finalScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
     [finalScore setText:[NSString stringWithFormat:@"Final Score: %d", scoreNumber]];
     [self addChild:finalScore];
@@ -409,37 +509,31 @@ static const uint32_t yellowCategory = 0x1 << 5;
     startNode = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     startNode.fontSize = 55;
     startNode.fontColor = [SKColor whiteColor];
-    startNode.position = CGPointMake(0.0f, -250.0f);;
+    startNode.position = CGPointMake(0.0f, -250.0f);
     startNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeCenter;
-    [startNode setText:@"Tap to Start the Game"];
+    [startNode setText:@"Tap to Try Again"];
     [self addChild:startNode];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     //Impluse code was found here: https://digitalbreed.com/2014/02/10/how-to-build-a-game-like-flappy-bird-with-xcode-and-sprite-kit/
     if(gameOver) {
+        for (SKNode *node in [self children]) {
+            [node removeFromParent];
+        }
         [self setUp];
     }
     else {
         if(aCircle.physicsBody.dynamic == NO) {
             aCircle.physicsBody.dynamic = YES;
-            aCircle.physicsBody.velocity = CGVectorMake(0, 0);
-            [aCircle.physicsBody applyImpulse:CGVectorMake(0, 25)];
-            SystemSoundID soundID;
-            NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"Regular" ofType:@"caf"];
-            NSURL *soundUrl = [NSURL fileURLWithPath:soundPath];
-            AudioServicesCreateSystemSoundID ((__bridge CFURLRef)soundUrl, &soundID);
-            AudioServicesPlaySystemSound(soundID);
         }
-        else {
-            aCircle.physicsBody.velocity = CGVectorMake(0, 0);
-            [aCircle.physicsBody applyImpulse:CGVectorMake(0, 25)];
-            SystemSoundID soundID;
-            NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"Regular" ofType:@"caf"];
-            NSURL *soundUrl = [NSURL fileURLWithPath:soundPath];
-            AudioServicesCreateSystemSoundID ((__bridge CFURLRef)soundUrl, &soundID);
-            AudioServicesPlaySystemSound(soundID);
-        }
+        aCircle.physicsBody.velocity = CGVectorMake(0, 0);
+        [aCircle.physicsBody applyImpulse:CGVectorMake(0, 25)];
+        SystemSoundID soundID;
+        NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"Regular" ofType:@"caf"];
+        NSURL *soundUrl = [NSURL fileURLWithPath:soundPath];
+        AudioServicesCreateSystemSoundID ((__bridge CFURLRef)soundUrl, &soundID);
+        AudioServicesPlaySystemSound(soundID);
     }
 }
 
@@ -459,7 +553,6 @@ static const uint32_t yellowCategory = 0x1 << 5;
 
 -(void)didBeginContact:(SKPhysicsContact*)contact {
     // 1 Create local variables for two physics bodies
-    NSLog(@"HERE");
     SKPhysicsBody* firstBody;
     SKPhysicsBody* secondBody;
     // 2 Assign the two physics bodies so that the one with the lower category is always stored in firstBody
@@ -470,6 +563,7 @@ static const uint32_t yellowCategory = 0x1 << 5;
         firstBody = contact.bodyB;
         secondBody = contact.bodyA;
     }
+    //the ball must be in motion because when setting up the scene things collide
     if (firstBody.categoryBitMask != secondBody.categoryBitMask && aCircle.physicsBody.dynamic == YES) {
         [self gameOver];
     }
